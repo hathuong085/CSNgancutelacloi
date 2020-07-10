@@ -1,0 +1,29 @@
+﻿
+@model List<Product>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    @if (Model != null)
+    {
+        foreach (var pd in Model)
+        {
+            var avatarPath = $"/Images/Product/{(pd.Img ?? "nonavatar.png")}";
+            <div class="col-sm-3">
+                <div class="card my-2">
+                    <div class="card-header">
+                        <h4>@pd.Name</h4>
+                    </div>
+                    <img src="@avatarPath" class="card-img-top myImage" asp-append-version="true" />
+                    <div class="card-footer text-center">
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@pd.Id" class="btn btn-info">View</a>
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@pd.Id" class="btn btn-primary">Edit</a>
+                        <a asp-controller="Home" asp-action="Details"
+                           asp-route-id="@pd.Id" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

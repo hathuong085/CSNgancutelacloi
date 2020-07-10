@@ -1,0 +1,130 @@
+﻿@inject UserManager<ApplicationUser> userManager
+@inject SignInManager<ApplicationUser> signInManager
+@{
+    var user = await userManager.GetUserAsync(User);
+    List<Category> categories = ViewBag.Categories;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div>
+            <img src="~/Images/amthuchue.jpeg" height="350" style="width:100%" />
+        </div>
+        <nav class="navbar navbar-expand-sm bg-info navbar-dark">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <img src="~/images/employee.png" alt="Logo" class="rounded-circle" style="width:40px; height:40px">
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#mainMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainMenu">
+                <ul class="navbar-nav btncus">
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link btncus" style="color:black">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-link" data-toggle="dropdown" style="width:100px;color:black">
+                                Categories
+                            </button>
+                            <div class="dropdown-menu">
+                                @if (categories != null)
+                                {
+                                    foreach (var c in categories)
+                                    {
+                                        <a class="dropdown-item" style="color:black" asp-controller="Home" asp-action="Products" asp-route-id="@c.CategoryId">@c.CategoryName</a>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Create" class="nav-link" style="color:black">Create</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Role" asp-action="Index" class="nav-link" style="color:black">Role</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="User" asp-action="Index" class="nav-link" style="color:black">User</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Category" asp-action="Index" class="nav-link" style="color:black">Category</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ml-auto">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item dropdown no-arrow">
+
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" style="font-size:25px;">@user.FullName</span>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">
+                                    <i class=" mr-2 text-gray-400"></i>
+                                    Imformation
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item  mr-3"><a asp-controller="Account" asp-action="Register">Register</a></li>
+                        <li class="nav-item"><a asp-controller="Account" asp-action="Login">Login</a></li>
+                    }
+                </ul>
+            </div>
+        </nav>
+        <div>
+            @RenderBody()
+        </div>
+        <footer class="border-top card-footer text-muted">
+            <span> &copy; C010220 @DateTime.Now.Year </span>
+        </footer>
+    </div>
+    <!-- Logout Modal-->
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="submit">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    @RenderSection("Script", false);
+</body>
+</html>

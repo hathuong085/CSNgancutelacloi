@@ -1,0 +1,45 @@
+﻿
+@model List<Product>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="row pt-5">
+        @if (Model != null)
+        {
+            int index = 1;
+            foreach (var pd in Model)
+            {
+                var avatarPath = $"/Images/Product/{(pd.Img ?? "nonavatar.png")}";
+                <div class="row" style="width:100%">
+                    @if (index % 2 == 0)
+                    {
+                        <div class="col-sm-6">
+                            <img src="~/Images/Product/@pd.Img" style="height:300px;width:100%" />
+                        </div>
+                        <div class="col-sm-6 text-center my-auto">
+                            <h3>Name: @pd.Name</h3>
+                            <h4>@pd.Title</h4>
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@pd.Id" class="btn btn-success">See more</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-6 text-center my-auto">
+                            <h3>Name: @pd.Name</h3>
+                            <h4>@pd.Title</h4>
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@pd.Id" class="btn btn-success">See more</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="~/Images/Product/@pd.Img" style="height:300px;width:100%" />
+                        </div>
+                    }
+                </div>
+                index++;
+                if (index > 6)
+                {
+                    return;
+                }
+            }
+        }
+    </div>

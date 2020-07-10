@@ -1,0 +1,55 @@
+﻿@model Product
+@{
+    ViewBag.Title = "Details";
+    //var employee = ViewBag.Employee as Employee;
+    var avatarPath = $"/Images/Product/{(Model.Img ?? "nonavatar.png")}";
+}
+<div class="row justify-content-center">
+    <div class="col-sm-6">
+        <div class="card my-2">
+            <div class="card-header">
+                <h3>@Model.Name</h3>
+            </div>
+            <div class="card-body text-center">
+                <img src="@avatarPath" class="card-img-top" asp-append-version="true" />
+                <h3>Price: @Model.Price</h3>
+                <h3>Introduce: @Model.Description</h3>
+                <h3>Addree: @Model.Address</h3>
+            </div>
+            <div class="card-footer text-center">
+                @*<a href="@Url.Action("Details","Home", new { id = Model.Employee.Id })" class="btn btn-info">View</a>*@
+                <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Back</a>
+                <a asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Update</a>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Product</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Do you want t delete product ?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a asp-controller="Home" asp-action="Delete"
+                   asp-route-id="@Model.Id"  class="btn btn-danger sizebtn">Delete</a>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+﻿.sizebtn{
+    width:75px;
+}
+.rootfoot {
+    width: 100%;
+    min-width: 980px;
+    overflow: hidden;
+    background: #f8f8f8;
+    padding: 10px 0;
+}
